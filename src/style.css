@@ -1,0 +1,73 @@
+.App {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.heroFooter {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+.heroImage img {
+    margin: 10px auto;
+    width: 100%;
+    height: 400px;
+}
+.randomHeroImage img {
+    margin: 5px auto;
+    width: 100%;
+    height: 130px;
+}
+.heroInfoImage img {
+    margin: 10px;
+    width: 90%;
+    height: 200px;
+}
+.findHero {
+    min-height: 500px;
+};
+.successSpinner {
+    height: 100px;
+}
+.heroItem {
+    width: 200px;
+    cursor: pointer;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.heroList {
+  width: 650px;
+  display: grid; /* Establishes the grid container */
+  grid-template-columns: repeat(3, 1fr); /* Creates 3 columns of equal width */
+  grid-gap: 10px; /* Adds a 10px gap between grid items */
+  background-color: #eee;
+  padding: 10px;
+  border: 1px solid dimgray;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 1px 1px 2px 2px;
+}
+.heroInfo {
+    width: 350px;
+    border: 1px solid dimgray;
+    box-shadow: 1px 1px 2px 2px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+}
+.heroListContainer {
+    margin-top: 0;
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+}
+.showMoreHeroes {
+    margin-top: 20px;
+}
+.selectedHero {
+    box-shadow: 0 5px 20px dimgray;
+    transform: translateY(-8px);
+}
