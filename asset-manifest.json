@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/comics_api_project/static/css/main.74d07ec3.css",
-    "main.js": "/comics_api_project/static/js/main.dadd3c19.js",
+    "main.js": "/comics_api_project/static/js/main.c2acf370.js",
     "index.html": "/comics_api_project/index.html",
     "main.74d07ec3.css.map": "/comics_api_project/static/css/main.74d07ec3.css.map",
-    "main.dadd3c19.js.map": "/comics_api_project/static/js/main.dadd3c19.js.map"
+    "main.c2acf370.js.map": "/comics_api_project/static/js/main.c2acf370.js.map"
   },
   "entrypoints": [
     "static/css/main.74d07ec3.css",
-    "static/js/main.dadd3c19.js"
+    "static/js/main.c2acf370.js"
   ]
 }
