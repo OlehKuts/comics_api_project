@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react';
 import useComicsService from './services/useComicsService';
 import { RandomHero } from './components/RandomHero';
 import { getRandomNum, scrollToTop } from './utils/utils';
-import { Navbar } from './Bootstrap_components/Navbar';
 import { HeroList } from './components/HeroList';
 import { ComicsList } from './components/ComicsList';
 import { initHero, initComics } from './constants';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom-v5-compat';
+import { AppHeader } from './components/AppHeader';
 
 export const App = () => {
-  const [pagesVisibility, setPagesVisibility] = useState([{id: 0, isVisible: true},
-    {id: 1, isVisible: false}, {id: 2, isVisible: false}
-  ])
   // variables
   const [randomHero, setRandomHero] = useState(initHero);
   const [selectedHero, setSelectedHero] = useState(initHero);
@@ -24,8 +22,6 @@ export const App = () => {
   const {getAllCharacters, getCharacter, getAllComics, error, loading} = useComicsService()
   // fns
  
-  const changePage = (pageId) => setPagesVisibility([...pagesVisibility]
-    .map(item => item.id === pageId ? {...item, isVisible: true} : {...item, isVisible: false}))
   const chooseHero = (heroId) => {
     setIsInfoOpened(true);
     setSelectedHero([...randomHeroes].find(item => item.id === heroId));
@@ -75,20 +71,22 @@ export const App = () => {
     useEffect(() => {getRandomComics()}, [])
 
   return (
+    <Router>
     <div className="App">
-     <Navbar changePage={changePage} pageList={pagesVisibility}/>
-    {pagesVisibility[0].isVisible ? <RandomHero hero={randomHero} loading={loading} err={error} 
-     updateHero={updateHero}/> : null}
-  {pagesVisibility[1].isVisible ? 
-  <HeroList randomHeroes={randomHeroes} selectedHero={selectedHero} 
+      <AppHeader />
+        <Routes>
+ <Route path="/" element={<RandomHero hero={randomHero} loading={loading} err={error} 
+     updateHero={updateHero}/>}/>
+     <Route path="/heroes" element={<HeroList randomHeroes={randomHeroes} selectedHero={selectedHero} 
   isInfoOpened={isInfoOpened} chooseHero={chooseHero} uploadAdditionalHeroes={uploadAdditionalHeroes}
-  showMoreBtn={showMoreBtn}/>
-   : null}
-   {pagesVisibility[2].isVisible ? <ComicsList
+  showMoreBtn={showMoreBtn}/>}/>
+  <Route path="/comics" element={ <ComicsList
     randomComics={randomComics}  uploadAdditionalComics={uploadAdditionalComics}
      showMoreComicsBtn={showMoreComicsBtn} isComicsInfoOpened={isComicsInfoOpened}
-     chooseComics={chooseComics} selectedComics={selectedComics} hideComicsInfo={hideComicsInfo}/> : null}
+     chooseComics={chooseComics} selectedComics={selectedComics} hideComicsInfo={hideComicsInfo}/>}/>
+        </Routes>
     </div>
+    </Router>
   );
 }
 ;
