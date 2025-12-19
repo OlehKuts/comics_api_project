@@ -14,6 +14,12 @@ export const Navbar = ({changePage, pageList}) => {
             Heroes
           </Nav.Link>
         </Nav.Item>
+        <Nav.Item>
+          <Nav.Link onClick={() => changePage(2)} 
+          style={{color: pageList[2].isVisible ? "deepskyblue" : "gray"}}>
+            Comics
+          </Nav.Link>
+        </Nav.Item>
       </Nav>
       </>
     )

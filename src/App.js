@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react';
-// import ComicsService from './services/ComicsService';
 import useComicsService from './services/useComicsService';
 import { RandomHero } from './components/RandomHero';
 import { getRandomNum, scrollToTop } from './utils/utils';
 import { Navbar } from './Bootstrap_components/Navbar';
 import { HeroList } from './components/HeroList';
-import { initHero } from './constants';
+import { ComicsList } from './components/ComicsList';
+import { initHero, initComics } from './constants';
 
 export const App = () => {
   const [pagesVisibility, setPagesVisibility] = useState([{id: 0, isVisible: true},
-    {id: 1, isVisible: false}
+    {id: 1, isVisible: false}, {id: 2, isVisible: false}
   ])
   // variables
   const [randomHero, setRandomHero] = useState(initHero);
   const [selectedHero, setSelectedHero] = useState(initHero);
+  const [selectedComics, setSelectedComics] = useState(initComics)
   const [isInfoOpened, setIsInfoOpened] = useState(false);
-  // const [loading, setLoading] = useState(true);
-  // const [err, setErr] = useState(false);
+  const [isComicsInfoOpened, setIsComicsInfoOpened] = useState(false);
   const [randomHeroes, setRandomHeroes] = useState([]);
+  const [randomComics, setRandomComics] = useState([]);
   const [showMoreBtn, setShowMoreBtn] = useState(true);
-  const {getAllCharacters, getCharacter, error, loading} = useComicsService()
+  const [showMoreComicsBtn, setShowMoreComicsBtn] = useState(true);
+  const {getAllCharacters, getCharacter, getAllComics, error, loading} = useComicsService()
   // fns
  
   const changePage = (pageId) => setPagesVisibility([...pagesVisibility]
@@ -29,6 +31,12 @@ export const App = () => {
     setSelectedHero([...randomHeroes].find(item => item.id === heroId));
     scrollToTop()
   }
+    const chooseComics = (comicsId) => {
+    setIsComicsInfoOpened(true);
+    setSelectedComics([...randomComics].find(item => item.id === comicsId));
+    scrollToTop()
+  }
+    const hideComicsInfo = () => setIsComicsInfoOpened(false);
   const updateHero = () => {
   getCharacter(getRandomNum(20))
   .then((data) => {
@@ -39,6 +47,11 @@ export const App = () => {
   .then((data) => {
     setRandomHeroes([...data].sort(() => Math.random() - 0.5).splice(0,9));
   }) }
+  const getRandomComics = () => {
+  getAllComics()
+  .then((data) => {
+    setRandomComics([...data].sort(() => Math.random() - 0.5).splice(0,8));
+  }) }
 
  const uploadAdditionalHeroes= () => {
   getAllCharacters()
@@ -48,9 +61,18 @@ export const App = () => {
     setRandomHeroes([...randomHeroes, ...additionalHeroes]);
     if(additionalHeroes.length < 9) setShowMoreBtn(false);
   }) }
-
+  const uploadAdditionalComics = () => {
+    getAllComics()
+    .then((data) => {
+    const additionalComics = [...data].filter(item => !randomComics.some(rndHero => rndHero.id === item.id))
+    .sort(() => Math.random() - 0.5).splice(0, 8);
+    setRandomComics([...randomComics, ...additionalComics]);
+    if(additionalComics.length < 8) setShowMoreComicsBtn(false);
+  })
+  }
     useEffect(() => {updateHero()}, []);
     useEffect(() => {getRandomHeroes()}, []);
+    useEffect(() => {getRandomComics()}, [])
 
   return (
     <div className="App">
@@ -62,6 +84,10 @@ export const App = () => {
   isInfoOpened={isInfoOpened} chooseHero={chooseHero} uploadAdditionalHeroes={uploadAdditionalHeroes}
   showMoreBtn={showMoreBtn}/>
    : null}
+   {pagesVisibility[2].isVisible ? <ComicsList
+    randomComics={randomComics}  uploadAdditionalComics={uploadAdditionalComics}
+     showMoreComicsBtn={showMoreComicsBtn} isComicsInfoOpened={isComicsInfoOpened}
+     chooseComics={chooseComics} selectedComics={selectedComics} hideComicsInfo={hideComicsInfo}/> : null}
     </div>
   );
 }

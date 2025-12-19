@@ -17,7 +17,7 @@ export const HeroInfo = ({isOpened, selectedHero}) => {
             <div><a href={wiki} className='btn btn-outline-success' rel="noreferrer" target="_blank">Wiki</a></div>
             </div>
             <hr />
-            <div className="comicsList"> 
+            <div className="comicsListInHero"> 
                 <Card className="text-center">
             <Card.Header >Comics</Card.Header>
                 <ListGroup variant="flush">{comics.length ? <>
