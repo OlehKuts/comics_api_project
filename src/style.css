@@ -97,3 +97,9 @@
     box-shadow: 0 5px 20px dimgray;
     transform: translateY(-8px);
 }
+.noMatch {
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}

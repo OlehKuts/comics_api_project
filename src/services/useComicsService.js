@@ -24,7 +24,13 @@ export const useComicsService = () => {
         )
         return result.data.results.map(_transformComics)
     }
-return {loading, error, getAllCharacters, getCharacter, getAllComics, clearError}
+    const getComics = async (comicsId) => {
+        const result = await request(
+            `${_apiBase}comics/${comicsId}?${_apiKey}`
+        )
+        return _transformComics(result.data.results[0])
+    }
+return {loading, error, getAllCharacters, getCharacter, getAllComics, getComics, clearError}
 }
 
 export default useComicsService;

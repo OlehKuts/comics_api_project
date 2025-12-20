@@ -7,32 +7,31 @@ import { ComicsList } from './components/ComicsList';
 import { initHero, initComics } from './constants';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom-v5-compat';
 import { AppHeader } from './components/AppHeader';
+import { NoMatch } from './components/NoMatch';
+import { ComicsInfo } from './components/ComicsInfo';
+import { comicsContext } from './context';
 
 export const App = () => {
+      const chooseComics = (comicsId) => {
+    getComics(comicsId).then(data => setComicsInfoData({...comicsInfoData, selectedComics: data}))
+  }
   // variables
   const [randomHero, setRandomHero] = useState(initHero);
   const [selectedHero, setSelectedHero] = useState(initHero);
-  const [selectedComics, setSelectedComics] = useState(initComics)
+  const [comicsInfoData, setComicsInfoData] = useState({selectedComics: initComics, chooseComics})
   const [isInfoOpened, setIsInfoOpened] = useState(false);
-  const [isComicsInfoOpened, setIsComicsInfoOpened] = useState(false);
   const [randomHeroes, setRandomHeroes] = useState([]);
   const [randomComics, setRandomComics] = useState([]);
   const [showMoreBtn, setShowMoreBtn] = useState(true);
   const [showMoreComicsBtn, setShowMoreComicsBtn] = useState(true);
-  const {getAllCharacters, getCharacter, getAllComics, error, loading} = useComicsService()
+  const {getAllCharacters, getCharacter, getAllComics, getComics, error, loading} = useComicsService();
+  const {Provider} = comicsContext;
   // fns
- 
   const chooseHero = (heroId) => {
     setIsInfoOpened(true);
     setSelectedHero([...randomHeroes].find(item => item.id === heroId));
     scrollToTop()
   }
-    const chooseComics = (comicsId) => {
-    setIsComicsInfoOpened(true);
-    setSelectedComics([...randomComics].find(item => item.id === comicsId));
-    scrollToTop()
-  }
-    const hideComicsInfo = () => setIsComicsInfoOpened(false);
   const updateHero = () => {
   getCharacter(getRandomNum(20))
   .then((data) => {
@@ -69,8 +68,8 @@ export const App = () => {
     useEffect(() => {updateHero()}, []);
     useEffect(() => {getRandomHeroes()}, []);
     useEffect(() => {getRandomComics()}, [])
-
   return (
+    <Provider value={comicsInfoData}> 
     <Router>
     <div className="App">
       <AppHeader />
@@ -82,11 +81,15 @@ export const App = () => {
   showMoreBtn={showMoreBtn}/>}/>
   <Route path="/comics" element={ <ComicsList
     randomComics={randomComics}  uploadAdditionalComics={uploadAdditionalComics}
-     showMoreComicsBtn={showMoreComicsBtn} isComicsInfoOpened={isComicsInfoOpened}
-     chooseComics={chooseComics} selectedComics={selectedComics} hideComicsInfo={hideComicsInfo}/>}/>
+     showMoreComicsBtn={showMoreComicsBtn}
+     chooseComics={chooseComics} selectedComics={comicsInfoData.selectedComics}
+     />}/>
+      <Route path="/comics/:comicsId" element={<ComicsInfo />} />
+     <Route path='*' element={<NoMatch />} />
         </Routes>
     </div>
     </Router>
+     </Provider>
   );
 }
 ;
