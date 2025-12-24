@@ -32,6 +32,15 @@ export const App = () => {
     setSelectedHero([...randomHeroes].find(item => item.id === heroId));
     scrollToTop()
   }
+  const findHero = ({heroName}) => {
+    setIsInfoOpened(true);
+    const foundHero = [...randomHeroes].find(item => item.name.toLowerCase() === heroName.toLowerCase())
+    if (foundHero) {setSelectedHero(foundHero)} else {
+    alert("The hero with this name doesn't exist");
+      setIsInfoOpened(false)
+    }
+     
+  }
   const updateHero = () => {
   getCharacter(getRandomNum(20))
   .then((data) => {
@@ -78,7 +87,7 @@ export const App = () => {
      updateHero={updateHero}/>}/>
      <Route path="/heroes" element={<HeroList randomHeroes={randomHeroes} selectedHero={selectedHero} 
   isInfoOpened={isInfoOpened} chooseHero={chooseHero} uploadAdditionalHeroes={uploadAdditionalHeroes}
-  showMoreBtn={showMoreBtn}/>}/>
+  showMoreBtn={showMoreBtn} findHero={findHero}/>}/>
   <Route path="/comics" element={ <ComicsList
     randomComics={randomComics}  uploadAdditionalComics={uploadAdditionalComics}
      showMoreComicsBtn={showMoreComicsBtn}

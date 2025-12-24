@@ -103,3 +103,16 @@
     display: flex;
     flex-direction: column;
 }
+#findHeroBtn{
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+.errorMsg {
+    color: red;
+    margin-left: 20px;
+}
+.findHeroForm {
+    display: flex;
+    flex-direction: row;
+    width: 500px
+}
